@@ -1,0 +1,58 @@
+import cervezas.*
+import personas.*
+import carpas.*
+
+describe "test"{
+	
+const roja = new Hof(grsLupulo=0.5,pais="alemania")
+const negraFuerte = new Guiness(grsLupulo=5,pais="belgica")
+
+const carpaVip = new Carpa(limite=10,marcaVendida=negraFuerte,tieneBandaTradicional=true,recargo=recargoFijo)
+
+const jarrita = new Jarra(litros=0.5,marca=roja,servidaEn=carpaVip)
+const jarraPotente = new Jarra(litros=1,marca=negraFuerte,servidaEn=carpaVip)
+
+const lucas = new Belga(peso=85,escuchaMusicaTradicional=false,nivelDeAguante=25)
+const hernan = new Aleman(peso=80,escuchaMusicaTradicional=true,nivelDeAguante=20)
+
+
+	test "una jarrita de medio litro de roja tiene 0.25 de alcohol" {
+		assert.equals(0.625, jarrita.alcohol())
+	}
+	
+	test "lucas ingiere 0.75 de alcohol al tomarse 3 cervezas rojas de medio litro"{
+		lucas.comprar(jarrita)
+		lucas.comprar(jarrita)
+		lucas.comprar(jarrita)
+		assert.equals(1.875, lucas.alcoholIngerido())
+	}
+	
+	test "lucas esta ebrio con 2 jarritas"{
+		lucas.comprar(jarrita)
+		lucas.comprar(jarrita)
+		assert.that(lucas.estaEbrio())
+	}
+	
+	test "a no lucas le gusta la hof"{
+		assert.notThat(lucas.leGusta(roja))
+	}
+	
+	test "hernan quiere entrar a carpa"{
+		assert.that(hernan.quiereEntrarA(carpaVip))
+	}
+	
+	test "hernan le gusta negraFuerte"{
+		assert.that(hernan.leGusta(negraFuerte))
+	}
+	
+	test "hernan esta borracho"{
+		hernan.comprar(jarraPotente)
+		assert.that(hernan.estaEbrio())
+	}
+	test "hernan no entra a carpaVip por borracho"{
+		hernan.comprar(jarraPotente)
+		assert.notThat(hernan.puedeEntrarA(carpaVip))
+	}
+	
+	
+}
